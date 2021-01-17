@@ -6,6 +6,7 @@ use yii\helpers\Url;
 $menus = [
     'items' => [
         ['label' => 'หนัาหลัก', 'icon' => 'home', 'url' => ['site/index']],
+        ['label' => 'จัดการผู้ใช้งาน', 'icon' => 'user', 'url' => ['user/index']],
         [
             'label' => 'กลุ่ม', 'icon' => 'school',
             'items' => [
@@ -14,15 +15,16 @@ $menus = [
                 ['label' => '3', 'icon' => 'dot-circle', 'url' => ['site/index']],
             ]
         ],
-
+        ['label' => 'generator', 'icon' => 'gavel', 'url' => 'gii'],
     ],
 ];
 ?>
-<aside class="main-sidebar sidebar-light-warning elevation-2">
-    <div class="text-center bg-warning">
+
+<aside class="main-sidebar sidebar-light-primary elevation-2">
+    <div class="text-center bg-primary">
         <a href="<?= \yii\helpers\Url::home() ?>" class="brand-link">
             <div class="image">
-                <img src="<?= SiteInfo::web() ?>dist/img/scholarship.png" class="img-circle elevation-2" style="width: 50px" alt="User Image">
+                <img src="<?= SiteInfo::web() ?>dist/img/AdminLTELogo.png" class="img-circle elevation-2" style="width: 50px" alt="User Image">
             </div>
             <span class="brand-text">ระบบจัดการหลังบ้าน</span>
         </a>
@@ -31,7 +33,7 @@ $menus = [
         <div class="sidebar">
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
-                    <img src="<?= SiteInfo::web() ?>dist/img/scholarship.png" class="img-circle elevation-2" alt="User Image">
+                    <img src="<?= SiteInfo::web() ?>dist/img/AdminLTELogo.png" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
                     <a href="#" class="d-block"><?= !Yii::$app->user->isGuest ? Yii::$app->user->identity->username : null ?></a>

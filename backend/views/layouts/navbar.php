@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 ?>
-<nav class="main-header navbar navbar-expand navbar-dark bg-loyal">
+<nav class="main-header navbar navbar-expand navbar-dark bg-primary">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
         <li class="nav-item">
