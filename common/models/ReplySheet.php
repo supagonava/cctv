@@ -11,10 +11,10 @@ use Yii;
  * @property float $real_price ราคาจริง
  * @property string $description คำอธิบาย
  * @property int|null $store_id ผู้ตอบใบเสนอราคา
- * @property int $q_id ใบเสนอราคา
+ * @property int|null $q_id ใบเสนอราคา
  *
- * @property Quotation $q
  * @property Store $store
+ * @property Quotation $q
  */
 class ReplySheet extends \yii\db\ActiveRecord
 {
@@ -32,12 +32,12 @@ class ReplySheet extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['real_price', 'description', 'q_id'], 'required'],
+            [['real_price', 'description'], 'required'],
             [['real_price'], 'number'],
             [['description'], 'string'],
             [['store_id', 'q_id'], 'integer'],
-            [['q_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quotation::className(), 'targetAttribute' => ['q_id' => 'id']],
             [['store_id'], 'exist', 'skipOnError' => true, 'targetClass' => Store::className(), 'targetAttribute' => ['store_id' => 'id']],
+            [['q_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quotation::className(), 'targetAttribute' => ['q_id' => 'id']],
         ];
     }
 
@@ -56,16 +56,6 @@ class ReplySheet extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Q]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getQ()
-    {
-        return $this->hasOne(Quotation::className(), ['id' => 'q_id']);
-    }
-
-    /**
      * Gets query for [[Store]].
      *
      * @return \yii\db\ActiveQuery
@@ -73,5 +63,15 @@ class ReplySheet extends \yii\db\ActiveRecord
     public function getStore()
     {
         return $this->hasOne(Store::className(), ['id' => 'store_id']);
+    }
+
+    /**
+     * Gets query for [[Q]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getQ()
+    {
+        return $this->hasOne(Quotation::className(), ['id' => 'q_id']);
     }
 }

@@ -12,6 +12,7 @@ use Yii;
  * @property string $description คำอธิบายเช่น สามารถจัดการสินค้าได้,ตั้งค่าที่อยู่ได้
  *
  * @property RolesUsers[] $rolesUsers
+ * @property Users[] $users
  */
 class Roles extends \yii\db\ActiveRecord
 {
@@ -54,5 +55,15 @@ class Roles extends \yii\db\ActiveRecord
     public function getRolesUsers()
     {
         return $this->hasMany(RolesUsers::className(), ['role_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Users]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUsers()
+    {
+        return $this->hasMany(Users::className(), ['id' => 'user_id'])->viaTable('roles_users', ['role_id' => 'id']);
     }
 }

@@ -11,10 +11,10 @@ use Yii;
  * @property string $name ชื่อร้านค้า
  * @property string $facebook เฟสร้าน
  * @property string $www URL ร้านค้า
- * @property string $line ID ไลน์ร้านค้า
+ * @property string $line_id ไลน์ร้านค้า
  * @property string $longtitude ลองติจูด
  * @property string $Latitude ละติจูด
- * @property string $map URL URL แผนที่ร้าน
+ * @property string $map_url URL แผนที่ร้าน
  * @property int $user_id เจ้าของร้าน
  *
  * @property Address[] $addresses
@@ -37,11 +37,11 @@ class Store extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'name', 'facebook', 'www', 'line ID', 'longtitude', 'Latitude', 'map URL', 'user_id'], 'required'],
+            [['id', 'name', 'facebook', 'www', 'line_id', 'longtitude', 'Latitude', 'map_url', 'user_id'], 'required'],
             [['id', 'user_id'], 'integer'],
-            [['facebook', 'www', 'map URL'], 'string'],
+            [['facebook', 'www', 'map_url'], 'string'],
             [['name', 'longtitude', 'Latitude'], 'string', 'max' => 100],
-            [['line ID'], 'string', 'max' => 80],
+            [['line_id'], 'string', 'max' => 80],
             [['id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -57,10 +57,10 @@ class Store extends \yii\db\ActiveRecord
             'name' => 'ชื่อร้านค้า',
             'facebook' => 'เฟสร้าน',
             'www' => 'URL ร้านค้า',
-            'line ID' => 'ไลน์ร้านค้า',
+            'line_id' => 'ไลน์ร้านค้า',
             'longtitude' => 'ลองติจูด',
             'Latitude' => 'ละติจูด',
-            'map URL' => 'URL แผนที่ร้าน',
+            'map_url' => 'URL แผนที่ร้าน',
             'user_id' => 'เจ้าของร้าน',
         ];
     }

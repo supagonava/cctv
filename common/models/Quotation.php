@@ -13,8 +13,8 @@ use Yii;
  * @property string|null $phone เบอร์โทรศัพท์
  * @property string|null $facebook เฟสบุ๊ค
  * @property string|null $email อีเมล
- * @property string|null $line ID ไลน์
- * @property string|null $Room Size ขนาดห้อง
+ * @property string|null $line_id ไลน์
+ * @property string|null $Room_Size ขนาดห้อง
  * @property float|null $bugget งบประมาณที่มี
  * @property int|null $user_id ผู้เสนอราคา
  * @property string|null $create_at ทำรายการเมื่อ
@@ -39,16 +39,14 @@ class Quotation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id'], 'required'],
-            [['id', 'user_id'], 'integer'],
-            [['facebook', 'Room Size'], 'string'],
+            [['facebook', 'Room_Size'], 'string'],
             [['bugget'], 'number'],
+            [['user_id'], 'integer'],
             [['create_at'], 'safe'],
             [['firstname', 'lastname'], 'string', 'max' => 50],
             [['phone'], 'string', 'max' => 15],
             [['email'], 'string', 'max' => 100],
-            [['line ID'], 'string', 'max' => 80],
-            [['id'], 'unique'],
+            [['line_id'], 'string', 'max' => 80],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -65,8 +63,8 @@ class Quotation extends \yii\db\ActiveRecord
             'phone' => 'เบอร์โทรศัพท์',
             'facebook' => 'เฟสบุ๊ค',
             'email' => 'อีเมล',
-            'line ID' => 'ไลน์',
-            'Room Size' => 'ขนาดห้อง',
+            'line_id' => 'ไลน์',
+            'Room_Size' => 'ขนาดห้อง',
             'bugget' => 'งบประมาณที่มี',
             'user_id' => 'ผู้เสนอราคา',
             'create_at' => 'ทำรายการเมื่อ',

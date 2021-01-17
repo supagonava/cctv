@@ -30,10 +30,9 @@ class Quotationcontent extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'q_id'], 'required'],
-            [['id', 'q_id'], 'integer'],
             [['file_path', 'description'], 'string'],
-            [['id'], 'unique'],
+            [['q_id'], 'required'],
+            [['q_id'], 'integer'],
             [['q_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quotation::className(), 'targetAttribute' => ['q_id' => 'id']],
         ];
     }

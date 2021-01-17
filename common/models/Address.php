@@ -38,13 +38,11 @@ class Address extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id'], 'required'],
-            [['id', 'user_id', 'store_id'], 'integer'],
+            [['user_id', 'store_id'], 'integer'],
             [['home_no'], 'string', 'max' => 6],
             [['village', 'road', 'zoi'], 'string', 'max' => 50],
             [['district', 'amphures', 'province'], 'string', 'max' => 100],
             [['post_code'], 'string', 'max' => 5],
-            [['id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['store_id'], 'exist', 'skipOnError' => true, 'targetClass' => Store::className(), 'targetAttribute' => ['store_id' => 'id']],
         ];
