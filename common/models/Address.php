@@ -42,7 +42,7 @@ class Address extends \yii\db\ActiveRecord
             [['home_no'], 'string', 'max' => 6],
             [['village', 'road', 'zoi'], 'string', 'max' => 50],
             [['district', 'amphures', 'province'], 'string', 'max' => 100],
-            [['post_code'], 'string', 'max' => 5],
+            [['post_code'], 'string', 'max' => 10],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['store_id'], 'exist', 'skipOnError' => true, 'targetClass' => Store::className(), 'targetAttribute' => ['store_id' => 'id']],
         ];

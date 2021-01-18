@@ -37,12 +37,11 @@ class Store extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'name', 'facebook', 'www', 'line_id', 'longtitude', 'Latitude', 'map_url', 'user_id'], 'required'],
-            [['id', 'user_id'], 'integer'],
+            [['name', 'facebook', 'www', 'line_id', 'longtitude', 'Latitude', 'map_url', 'user_id'], 'required'],
             [['facebook', 'www', 'map_url'], 'string'],
+            [['user_id'], 'integer'],
             [['name', 'longtitude', 'Latitude'], 'string', 'max' => 100],
             [['line_id'], 'string', 'max' => 80],
-            [['id'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }

@@ -42,5 +42,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'create_at',
         ],
     ]) ?>
-
+    
+    <div class="row">
+        <?php foreach ($model->quotationcontents as $item) : ?>
+            <!-- ถ้ามีรูป -->
+            <?php if (!empty($item->file_path)) : ?>
+                <div class="col-6">
+                    <!-- แสดงรูป -->
+                    <img style="height: 300px;object-fit:cover" src="<?= \common\models\SiteInfo::web() . "/$item->file_path" ?>" class="img-fluid rounded">
+                    <br>ตำแหน่งไฟล์ : <?= \common\models\SiteInfo::web() . "/$item->file_path" ?>
+                    <br>รายละเอียด : <?= $item->description ?>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
 </div>

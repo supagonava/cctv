@@ -2,7 +2,6 @@
 
 namespace backend\controllers;
 
-use common\models\MyFileUpload;
 use Yii;
 use common\models\Quotationcontent;
 use common\models\QuotationcontentSearch;
@@ -66,8 +65,16 @@ class QuotationcontentController extends Controller
     public function actionCreate()
     {
         $model = new Quotationcontent();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $uploadModel = new \common\models\MyFileUpload(); // ประกาศตัวแปรอัปโหลดภาพ
+        $file = $_FILES; //ตัวแปรรับไฟล์ที่เข้ามาจาก ฟอร์ม
+        //Quotationcontent[file_path]
+        
+        if ($model->load(Yii::$app->request->post())) { //ถ้ากดบันทึก
+            
+            if (!empty($file["Quotationcontent"]["name"]["file_path"])) {
+                $model->file_path = $uploadModel->UploadImage("Quotationcontent[file_path]", "images")["data"];
+            }
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -86,15 +93,17 @@ class QuotationcontentController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $uploadModel = new MyFileUpload(); // ประกาศตัวแปรอัปโหลดภาพ
+        $uploadModel = new \common\models\MyFileUpload(); // ประกาศตัวแปรอัปโหลดภาพ
         $file = $_FILES; //ตัวแปรรับไฟล์ที่เข้ามาจาก ฟอร์ม
         //Quotationcontent[file_path]
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) { //ถ้ากดบันทึก
+        if ($model->load(Yii::$app->request->post())) { //ถ้ากดบันทึก
+
+            // ถ้ามีไฟล์รูปภาพมา [ชื่อโมเดล][name][ฟิลด์รูปภาพ]
             if (!empty($file["Quotationcontent"]["name"]["file_path"])) {
                 $model->file_path = $uploadModel->UploadImage("Quotationcontent[file_path]", "images")["data"];
-                $model->save();
             }
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

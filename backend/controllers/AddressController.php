@@ -8,6 +8,8 @@ use common\models\AddressSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 /**
  * AddressController implements the CRUD actions for Address model.
@@ -123,5 +125,33 @@ class AddressController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionGetDropdownAddress()
+    {
+        $where = Yii::$app->request->get("where");
+        $type = Yii::$app->request->get("type");
+        $tagId = Yii::$app->request->get("tagId");
+        $name = Yii::$app->request->get("name");
+        $sql = "select * from view_thai_prov where $where";
+        $map = "province";
+        switch ($type) {
+            case 'amphures':
+                $sql .= " group by amphures order by amphures";
+                $map = "amphures";
+                break;
+            case 'subdistricts':
+                $sql .= " group by subdistricts order by subdistricts";
+                $map = "subdistricts";
+                break;
+        }
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+        return Html::dropDownList("$name", $selection = null, $items = ArrayHelper::map($result, "$map", "$map"), $options = ["id" => $tagId]);
+    }
+
+    public function actionGetZipcode()
+    {
+        $district = Yii::$app->request->get("district");
+        return Yii::$app->db->createCommand("SELECT * FROM `view_thai_prov` where subdistricts = $district")->queryOne()["zip_code"];
     }
 }

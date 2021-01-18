@@ -42,9 +42,9 @@ use yii\helpers\Url;
     <link rel="stylesheet" href="<?= SiteInfo::web() ?>plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="<?= SiteInfo::web() ?>plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="<?= SiteInfo::web() ?>plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-    <link rel="stylesheet" href="<?= SiteInfo::web() ?>css/custom.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300;400&display=swap" rel="stylesheet">
+
     <style>
         .linespace {
             margin-bottom: 1rem;
@@ -59,16 +59,18 @@ use yii\helpers\Url;
         }
     </style>
 
-    <!-- jQuery -->
-    <script src="<?= SiteInfo::web() ?>plugins/jquery/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.2.0/jspdf.umd.min.js"></script>
 
-    <!-- jQuery UI 1.11.4 -->
+
+</head>
+
+<body class="sidebar-mini sidebar-collapse">
+
+    <?php $this->beginBody() ?>
+    <!-- jq -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.20/js/uikit.min.js"></script>
+
     <script src="<?= SiteInfo::web() ?>plugins/jquery-ui/jquery-ui.min.js"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-        $.widget.bridge('uibutton', $.ui.button)
-    </script>
     <!-- Bootstrap 4 -->
     <script src="<?= SiteInfo::web() ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- ChartJS -->
@@ -91,7 +93,6 @@ use yii\helpers\Url;
     <script src="<?= SiteInfo::web() ?>plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
     <script src="<?= SiteInfo::web() ?>dist/js/adminlte.js"></script>
-
     <!-- DataTables  & Plugins -->
     <script src="<?= SiteInfo::web() ?>plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="<?= SiteInfo::web() ?>plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -105,15 +106,11 @@ use yii\helpers\Url;
     <script src="<?= SiteInfo::web() ?>plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="<?= SiteInfo::web() ?>plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="<?= SiteInfo::web() ?>plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-    <script src="<?= SiteInfo::web() ?>js/datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.js"></script>
     <script src="<?= SiteInfo::web() ?>js/pdfmake.js"></script>
     <script src="<?= SiteInfo::web() ?>js/chartLib.js"></script>
     <script src="<?= SiteInfo::web() ?>js/jquery.canvasjs.min.js"></script>
-</head>
-
-<body class="sidebar-mini sidebar-collapse">
-    <?php $this->beginBody() ?>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.20/js/uikit.min.js"></script>
     <div class="wrapper">
         <!-- Navbar -->
         <?= $this->render('navbar') ?>

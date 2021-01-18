@@ -7,10 +7,10 @@ $menus = [
     'items' => [
         ['label' => 'หนัาหลัก', 'icon' => 'home', 'url' => ['site/index']],
         ['label' => 'จัดการผู้ใช้งาน', 'icon' => 'users', 'url' => ['users/index']],
-        ['label' => 'สินค้า', 'icon' => 'fa fa-shopping-cart', 'url' => ['orders/index']],
+        ['label' => 'คำสั่งซื้อ', 'icon' => 'fa fa-shopping-cart', 'url' => ['orders/index']],
         ['label' => 'ร้านค้า', 'icon' => 'fa fa-shopping-basket', 'url' => ['store/index']], 
-        ['label' => 'คำอ้างอิง', 'icon' => 'fa fa-stop-circle', 'url' => ['quotation/index']], 
         ['label' => 'ผลิตภัณฑ์', 'icon' => 'fa fa-id-badge', 'url' => ['products/index']], 
+        ['label' => 'ใบเสนอราคา', 'icon' => 'fa fa-book', 'url' => ['quotation/index']], 
         ['label' => 'เนื้อหาใบเสนอราคา', 'icon' => 'fa fa-folder', 'url' => ['quotationcontent/index']], 
         ['label' => 'ที่อยู่', 'icon' => 'fa fa-location-arrow', 'url' => ['address/index']], 
         ['label' => 'แผ่นตอบรับ', 'icon' => 'fa fa-barcode', 'url' => ['ReplySheet/index']],
@@ -19,16 +19,17 @@ $menus = [
         [
             'label' => 'หมวดหมู่สินค้า', 'icon' => 'fa fa-bars',
             'items' => [
-                ['label' => '1', 'icon' => 'dot-circle', 'url' => ['Categories/index']],
-                ['label' => '2', 'icon' => 'dot-circle', 'url' => ['Categories/index']],
-                ['label' => '3', 'icon' => 'dot-circle', 'url' => ['Categories/index']],
-                ['label' => '4', 'icon' => 'dot-circle', 'url' => ['Categories/index']],
+                ['label' => '1', 'icon' => 'dot-circle', 'url' => ['categories/index']],
+                ['label' => '2', 'icon' => 'dot-circle', 'url' => ['categories/index']],
+                ['label' => '3', 'icon' => 'dot-circle', 'url' => ['categories/index']],
+                ['label' => '4', 'icon' => 'dot-circle', 'url' => ['categories/index']],
             ],  
         ['label' => 'generator', 'icon' => 'gavel', 'url' => 'gii'],
         ],
     ],
 ];
 ?>
+
 <aside class="main-sidebar sidebar-light-primary elevation-2">
     <div class="text-center bg-primary">
         <a href="<?= \yii\helpers\Url::home() ?>" class="brand-link">

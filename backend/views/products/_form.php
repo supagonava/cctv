@@ -1,7 +1,8 @@
 <?php
 
+use common\models\Categories;
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Products */
@@ -14,7 +15,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'name')->textInput() ?>
 
-    <?= $form->field($model, 'category_id')->textInput() ?>
+    <!-- dropdownlist -->
+    <?= $form->field($model, 'category_id')->dropdownList(yii\helpers\ArrayHelper::map(Categories::find()->all(), "id", "name"), ['class' => 'form-control']) ?>
 
     <?= $form->field($model, 'price')->textInput() ?>
 
