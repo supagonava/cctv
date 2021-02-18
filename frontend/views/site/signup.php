@@ -1,35 +1,60 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \frontend\models\SignupForm */
-
+use frontend\models\SignupForm;
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use yii\bootstrap4\ActiveForm;
+use yii\helpers\Url;
 
-$this->title = 'Signup';
-$this->params['breadcrumbs'][] = $this->title;
+/* @var $this yii\web\View */
+/* @var $model common\models\User */
+/* @var $form yii\widgets\ActiveForm */
+
+$this->title = 'สมัครสมาชิก';
 ?>
-<div class="site-signup">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Please fill out the following fields to signup:</p>
-
+<?php $model = new SignupForm(); ?>
+<?php $form = ActiveForm::begin(['id' => 'signup-form', 'action' => Url::to(["site/signup"])]); ?>
+<!-- Body -->
+<div class="modal-body">
     <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-                <?= $form->field($model, 'email') ?>
-
-                <?= $form->field($model, 'password')->passwordInput() ?>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
+        <div class="col-6">
+            <?= $form->field($model, 'username')->textInput(['maxlength' => true, "required" => true, "minlength" => 8]) ?>
+        </div>
+        <div class="col-6">
+            <?= $form->field($model, 'password')->textInput(['maxlength' => true, "required" => true, "type" => "password", "minlength" => 8]) ?>
+        </div>
+        <div class="col-6">
+            <?= $form->field($model, 'firstname')->textInput(['maxlength' => true, "required" => true]) ?>
+        </div>
+        <div class="col-6">
+            <?= $form->field($model, 'lastname')->textInput(['maxlength' => true, "required" => true]) ?>
+        </div>
+        <div class="col-3">
+            <?= $form->field($model, 'sex')->dropdownList(['ชาย' => 'ชาย', 'หญิง' => 'หญิง']) ?>
+        </div>
+        <div class="col-3">
+            <?= $form->field($model, 'dob')->textInput(["type" => "date", "required" => true]) ?>
+        </div>
+        <div class="col-6">
+        </div>
+        <div class="col-3">
+            <?= $form->field($model, 'phone')->textInput(['maxlength' => true, "required" => true]) ?>
+        </div>
+        <div class="col-3">
+            <?= $form->field($model, 'email')->textInput(['maxlength' => true, "required" => true]) ?>
+        </div>
+        <div class="col-3">
+            <?= $form->field($model, 'lineId')->textInput(['maxlength' => true, "required" => true]) ?>
+        </div>
+        <div class="col-3">
+            <?= $form->field($model, 'facebook')->textInput(['maxlength' => true, "required" => true]) ?>
         </div>
     </div>
 </div>
+<!-- Footer -->
+<div class="modal-footer">
+    <div class="form-group">
+        <?= Html::submitButton('สมัครสมาชิก', ['class' => 'btn btn-success w-100 round']) ?>
+    </div>
+    <button type="button" class="btn btn-outline-info waves-effect ml-auto" data-dismiss="modal">Close</button>
+</div>
+<?php ActiveForm::end(); ?>

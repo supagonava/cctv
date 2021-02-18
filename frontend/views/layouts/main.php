@@ -1,83 +1,77 @@
 <?php
 
-/* @var $this \yii\web\View */
-/* @var $content string */
-
+use common\models\LoginForm;
+use common\models\SiteInfo;
+use frontend\models\SignupForm;
+use yii\bootstrap4\ActiveForm;
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use frontend\assets\AppAsset;
-use common\widgets\Alert;
+use yii\helpers\Url;
 
-AppAsset::register($this);
 ?>
-<?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+
+<html lang="en">
+
 <head>
-    <meta charset="<?= Yii::$app->charset ?>">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>CCTV</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link href="<?= SiteInfo::web() ?>css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?= SiteInfo::web() ?>css/mdb.min.css" rel="stylesheet">
+    <style>
+        .card-ecommerce {
+            cursor: pointer;
+        }
+    </style>
+
 </head>
-<body>
-<?php $this->beginBody() ?>
 
-<div class="wrap">
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
-    ?>
+<body class="homepage-v1 hidden-sn white-skin animated">
+    <script type="text/javascript" src="<?= SiteInfo::web() ?>js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="<?= SiteInfo::web() ?>js/popper.min.js"></script>
+    <script type="text/javascript" src="<?= SiteInfo::web() ?>js/bootstrap.min.js">
+    </script>
+    <script type="text/javascript" src="<?= SiteInfo::web() ?>js/mdb.min.js"></script>
+    <script type="text/javascript">
+        new WOW().init();
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+        $(document).ready(function() {
+            $('.mdb-select').material_select();
+        });
+        $(".button-collapse").sideNav();
+    </script>
 
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
+    <header>
+        <?= $this->render("navbar") ?>
+    </header>
+
+    <div class="container" style="margin-top:100px">
+        <?php if (Yii::$app->session->getFlash("success")) : ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong><?= Yii::$app->session->getFlash("success") ?></strong>
+            </div>
+        <?php elseif (Yii::$app->session->getFlash("error")) : ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <strong><?= Yii::$app->session->getFlash("error") ?></strong>
+            </div>
+        <?php endif; ?>
+
         <?= $content ?>
     </div>
-</div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
+    <?= $this->render("footer") ?>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
-
-<?php $this->endBody() ?>
 </body>
+<?php include("modal.php"); ?>
+
 </html>
-<?php $this->endPage() ?>

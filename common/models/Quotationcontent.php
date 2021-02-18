@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "quotationcontent".
  *
  * @property int $id
- * @property string|null $file_path รูปภาพ
+ * @property string $file_path รูปภาพ
  * @property string|null $description รายละเอียด
  * @property int $q_id รหัสใบเสนอราคา
  *
@@ -30,8 +30,8 @@ class Quotationcontent extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['file_path', 'q_id'], 'required'],
             [['file_path', 'description'], 'string'],
-            [['q_id'], 'required'],
             [['q_id'], 'integer'],
             [['q_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quotation::className(), 'targetAttribute' => ['q_id' => 'id']],
         ];

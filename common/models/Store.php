@@ -18,6 +18,7 @@ use Yii;
  * @property int $user_id เจ้าของร้าน
  *
  * @property Address[] $addresses
+ * @property Products[] $products
  * @property ReplySheet[] $replySheets
  * @property Users $user
  */
@@ -72,6 +73,16 @@ class Store extends \yii\db\ActiveRecord
     public function getAddresses()
     {
         return $this->hasMany(Address::className(), ['store_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Products]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProducts()
+    {
+        return $this->hasMany(Products::className(), ['store_id' => 'id']);
     }
 
     /**

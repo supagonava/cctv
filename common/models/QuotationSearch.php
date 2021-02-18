@@ -17,8 +17,8 @@ class QuotationSearch extends Quotation
     public function rules()
     {
         return [
-            [['id', 'user_id'], 'integer'],
-            [['firstname', 'lastname', 'phone', 'facebook', 'email', 'line_id', 'Room_Size', 'create_at'], 'safe'],
+            [['user_id'], 'integer'],
+            [['Room_Size', 'create_at'], 'safe'],
             [['bugget'], 'number'],
         ];
     }
@@ -65,12 +65,7 @@ class QuotationSearch extends Quotation
             'create_at' => $this->create_at,
         ]);
 
-        $query->andFilterWhere(['like', 'firstname', $this->firstname])
-            ->andFilterWhere(['like', 'lastname', $this->lastname])
-            ->andFilterWhere(['like', 'phone', $this->phone])
-            ->andFilterWhere(['like', 'facebook', $this->facebook])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'line_id', $this->line_id])
+        $query
             ->andFilterWhere(['like', 'Room_Size', $this->Room_Size]);
 
         return $dataProvider;

@@ -14,6 +14,14 @@ class SiteInfo
     {
         return Yii::getAlias("@webroot") . "/";
     }
+    public static function backendWeb()
+    {
+        return str_replace("frontend", "backend", Yii::getAlias("@web") . "/");
+    }
+    public static function backendWebroot()
+    {
+        return str_replace("frontend", "backend", Yii::getAlias("@webroot") . "/");
+    }
 }
 // @yii - framework directory.
 // @app - base path of currently running application.

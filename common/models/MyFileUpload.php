@@ -60,12 +60,7 @@ class MyFileUpload
 
     public function getUploadPath()
     {
-        return Yii::getAlias('@webroot') . '/' . $this->upload_folder . '/';
-    }
-
-    public function getUploadUrl()
-    {
-        return Yii::getAlias('@web') . '/' . $this->upload_folder . '/';
+        return SiteInfo::backendWebroot() . $this->upload_folder . '/';
     }
 
     public static function removeFile($fullPath)

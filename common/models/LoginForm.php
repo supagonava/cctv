@@ -32,6 +32,14 @@ class LoginForm extends Model
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'ชื่อผู้ใช้',
+            'password' => 'รหัสผ่าน',
+            'rememberMe' => 'จดจำฉัน',
+        ];
+    }
     /**
      * Validates the password.
      * This method serves as the inline validation for password.
@@ -59,21 +67,10 @@ class LoginForm extends Model
         if ($this->validate()) {
             return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
-
         return false;
     }
-
-    /**
-     * Finds user by [[username]]
-     *
-     * @return User|null
-     */
-    protected function getUser()
+    public function getUser()
     {
-        if ($this->_user === null) {
-            $this->_user = User::findByUsername($this->username);
-        }
-
-        return $this->_user;
+        return Users::find()->where(["username" => $this->username])->one();
     }
 }

@@ -2,12 +2,15 @@
 
 namespace backend\controllers;
 
+use common\models\MyFileUpload;
 use Yii;
 use common\models\Products;
+use common\models\Productscontent;
 use common\models\ProductsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ProductsController implements the CRUD actions for Products model.
@@ -67,6 +70,7 @@ class ProductsController extends Controller
         $model = new Products();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -85,8 +89,15 @@ class ProductsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if (!empty($_FILES['image']['name'])) {
+                $uploader = new MyFileUpload();
+                $content = new Productscontent();
+                $content->product_id = $model->id;
+                $content->description = "$model->name";
+                $content->file_path = $uploader->UploadImage("image", "images")["data"];
+                $content->save();
+            }
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

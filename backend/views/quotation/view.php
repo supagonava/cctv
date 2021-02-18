@@ -29,20 +29,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
-            'firstname',
-            'lastname',
-            'phone',
-            'facebook:ntext',
-            'email:email',
-            'line_id',
-            'Room_Size:ntext',
+            'Room_Size',
             'bugget',
-            'user_id',
+            [
+                'attribute' => "user_id",
+                "value" => function ($model) {
+                    return $model->user->firstname . " " . $model->user->lastname;
+                }
+            ],
             'create_at',
+            'status'
         ],
     ]) ?>
-    
+
     <div class="row">
         <?php foreach ($model->quotationcontents as $item) : ?>
             <!-- ถ้ามีรูป -->
@@ -50,8 +49,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-6">
                     <!-- แสดงรูป -->
                     <img style="height: 300px;object-fit:cover" src="<?= \common\models\SiteInfo::web() . "/$item->file_path" ?>" class="img-fluid rounded">
-                    <br>ตำแหน่งไฟล์ : <?= \common\models\SiteInfo::web() . "/$item->file_path" ?>
-                    <br>รายละเอียด : <?= $item->description ?>
+                    <!-- <br>ตำแหน่งไฟล์ : <?= \common\models\SiteInfo::web() . "/$item->file_path" ?> -->
+                    <!-- <br>รายละเอียด : <?= $item->description ?> -->
                 </div>
             <?php endif; ?>
         <?php endforeach; ?>

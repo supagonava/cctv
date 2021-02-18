@@ -8,16 +8,11 @@ use Yii;
  * This is the model class for table "quotation".
  *
  * @property int $id
- * @property string|null $firstname ชื่อ
- * @property string|null $lastname นามสกุล
- * @property string|null $phone เบอร์โทรศัพท์
- * @property string|null $facebook เฟสบุ๊ค
- * @property string|null $email อีเมล
- * @property string|null $line_id ไลน์
  * @property string|null $Room_Size ขนาดห้อง
  * @property float|null $bugget งบประมาณที่มี
  * @property int|null $user_id ผู้เสนอราคา
- * @property string|null $create_at ทำรายการเมื่อ
+ * @property string $create_at ทำรายการเมื่อ
+ * @property string|null $status สถานะใบเสนอราคา
  *
  * @property Users $user
  * @property Quotationcontent[] $quotationcontents
@@ -39,14 +34,11 @@ class Quotation extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['facebook', 'Room_Size'], 'string'],
+            [['Room_Size'], 'string'],
             [['bugget'], 'number'],
             [['user_id'], 'integer'],
             [['create_at'], 'safe'],
-            [['firstname', 'lastname'], 'string', 'max' => 50],
-            [['phone'], 'string', 'max' => 15],
-            [['email'], 'string', 'max' => 100],
-            [['line_id'], 'string', 'max' => 80],
+            [['status'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -58,16 +50,11 @@ class Quotation extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'firstname' => 'ชื่อ',
-            'lastname' => 'นามสกุล',
-            'phone' => 'เบอร์โทรศัพท์',
-            'facebook' => 'เฟสบุ๊ค',
-            'email' => 'อีเมล',
-            'line_id' => 'ไลน์',
             'Room_Size' => 'ขนาดห้อง',
             'bugget' => 'งบประมาณที่มี',
             'user_id' => 'ผู้เสนอราคา',
             'create_at' => 'ทำรายการเมื่อ',
+            'status' => 'สถานะใบเสนอราคา',
         ];
     }
 

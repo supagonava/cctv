@@ -20,7 +20,7 @@ class SiteController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'actions' => ['login', 'error'],
@@ -34,9 +34,8 @@ class SiteController extends Controller
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                ],
+                'class' => VerbFilter::class,
+                'actions' => [],
             ],
         ];
     }

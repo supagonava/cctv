@@ -1,6 +1,6 @@
 <?php
-namespace common\models;
 
+namespace common\models;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -9,6 +9,9 @@ use yii\web\IdentityInterface;
 
 class Users extends ActiveRecord implements IdentityInterface
 {
+    const STATUS_DELETED = 0;
+    const STATUS_INACTIVE = 9;
+    const STATUS_ACTIVE = 10;
     // Normal model
     public static function tableName()
     {
@@ -21,12 +24,12 @@ class Users extends ActiveRecord implements IdentityInterface
         return [
             [['username', 'password_hash', 'firstname', 'lastname'], 'required'],
             [['password_hash', 'facebook'], 'string'],
-            [['dob'], 'safe'],
+            [['dob', 'created_at', 'updated_at'], 'safe'],
             [['username', 'firstname', 'lastname'], 'string', 'max' => 50],
             [['sex', 'phone'], 'string', 'max' => 15],
             [['email'], 'string', 'max' => 100],
             [['lineId'], 'string', 'max' => 70],
-            [['auth_key'], 'string', 'max' => 255], 
+            [['auth_key'], 'string', 'max' => 255],
         ];
     }
 
@@ -44,6 +47,9 @@ class Users extends ActiveRecord implements IdentityInterface
             'email' => 'อีเมล์',
             'lineId' => 'ไลน์',
             'facebook' => 'เฟสบุค',
+            'auth_key' => 'Auth Key',
+            'created_at' => 'Create At',
+            'updated_at' => 'Updated At',
         ];
     }
 
@@ -72,7 +78,18 @@ class Users extends ActiveRecord implements IdentityInterface
         return $this->hasMany(Store::className(), ['user_id' => 'id']);
     }
 
-
+    public function signup()
+    {
+        $this->password_hash = password_hash($this->password_hash, PASSWORD_BCRYPT);
+        if ($this->save()) {
+            $roleUser = new RolesUsers();
+            $roleUser->load(["RolesUsers" => ["user_id" => $this->id, "role_id" => 30]]);
+            if ($roleUser->save()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     // Identity Interface
     public function behaviors()
@@ -108,7 +125,8 @@ class Users extends ActiveRecord implements IdentityInterface
         ]);
     }
 
-    public static function findByVerificationToken($token) {
+    public static function findByVerificationToken($token)
+    {
         return static::findOne([
             'verification_token' => $token
         ]);

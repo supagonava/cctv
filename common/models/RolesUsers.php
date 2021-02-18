@@ -31,6 +31,7 @@ class RolesUsers extends \yii\db\ActiveRecord
         return [
             [['role_id', 'user_id'], 'required'],
             [['role_id', 'user_id'], 'integer'],
+            [['role_id', 'user_id'], 'unique', 'targetAttribute' => ['role_id', 'user_id']],
             [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => Roles::className(), 'targetAttribute' => ['role_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];

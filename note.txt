@@ -1,0 +1,4 @@
+#####NOTE
+->เอารูปไว้ที่ D:\XAMPP\htdocs\cctv\backend\web\imgAssets
+->เถ้าจะเอาออกมาแสดง
+->เ<img style="object-fit: cover;" src="<?= SiteInfo::backendWeb() . "/imgAssets/ชื่อรูป" ?>" class="img-fluid">

@@ -12,9 +12,11 @@ use Yii;
  * @property int $category_id หมวดหมู่
  * @property float $price ราคา
  * @property string $description รายละเอียด
+ * @property int|null $store_id ของร้าน
  *
  * @property Ordersproducts[] $ordersproducts
  * @property Categories $category
+ * @property Store $store
  * @property Productscontent[] $productscontents
  */
 class Products extends \yii\db\ActiveRecord
@@ -34,10 +36,12 @@ class Products extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'category_id', 'price', 'description'], 'required'],
-            [['name', 'category_id'], 'integer'],
+            
+            [['category_id', 'store_id'], 'integer'],
             [['price'], 'number'],
-            [['description'], 'string'],
+            [['name', 'description'], 'string'],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [['store_id'], 'exist', 'skipOnError' => true, 'targetClass' => Store::className(), 'targetAttribute' => ['store_id' => 'id']],
         ];
     }
 
@@ -52,6 +56,7 @@ class Products extends \yii\db\ActiveRecord
             'category_id' => 'หมวดหมู่',
             'price' => 'ราคา',
             'description' => 'รายละเอียด',
+            'store_id' => 'ของร้าน',
         ];
     }
 
@@ -73,6 +78,16 @@ class Products extends \yii\db\ActiveRecord
     public function getCategory()
     {
         return $this->hasOne(Categories::className(), ['id' => 'category_id']);
+    }
+
+    /**
+     * Gets query for [[Store]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStore()
+    {
+        return $this->hasOne(Store::className(), ['id' => 'store_id']);
     }
 
     /**

@@ -2,7 +2,6 @@
 
 use common\models\SiteInfo;
 use yii\helpers\Url;
-
 $menus = [
     'items' => [
         ['label' => 'หนัาหลัก', 'icon' => 'home', 'url' => ['site/index']],
@@ -11,21 +10,10 @@ $menus = [
         ['label' => 'ร้านค้า', 'icon' => 'fa fa-shopping-basket', 'url' => ['store/index']], 
         ['label' => 'ผลิตภัณฑ์', 'icon' => 'fa fa-id-badge', 'url' => ['products/index']], 
         ['label' => 'ใบเสนอราคา', 'icon' => 'fa fa-book', 'url' => ['quotation/index']], 
-        ['label' => 'เนื้อหาใบเสนอราคา', 'icon' => 'fa fa-folder', 'url' => ['quotationcontent/index']], 
+        // ['label' => 'เนื้อหาใบเสนอราคา', 'icon' => 'fa fa-folder', 'url' => ['quotation-content/index']], 
         ['label' => 'ที่อยู่', 'icon' => 'fa fa-location-arrow', 'url' => ['address/index']], 
-        ['label' => 'แผ่นตอบรับ', 'icon' => 'fa fa-barcode', 'url' => ['ReplySheet/index']],
-        ['label' => 'เนื้อหาผลิตภัณฑ์', 'icon' => 'fa fa-file-text', 'url' => ['productscontent/index']],  
-
-        [
-            'label' => 'หมวดหมู่สินค้า', 'icon' => 'fa fa-bars',
-            'items' => [
-                ['label' => '1', 'icon' => 'dot-circle', 'url' => ['categories/index']],
-                ['label' => '2', 'icon' => 'dot-circle', 'url' => ['categories/index']],
-                ['label' => '3', 'icon' => 'dot-circle', 'url' => ['categories/index']],
-                ['label' => '4', 'icon' => 'dot-circle', 'url' => ['categories/index']],
-            ],  
-        ['label' => 'generator', 'icon' => 'gavel', 'url' => 'gii'],
-        ],
+        ['label' => 'แผ่นตอบรับ', 'icon' => 'fa fa-barcode', 'url' => ['reply-sheet/index']],
+        ['label' => 'เนื้อหาผลิตภัณฑ์', 'icon' => 'fa fa-server', 'url' => ['products-content/index']],  
     ],
 ];
 ?>

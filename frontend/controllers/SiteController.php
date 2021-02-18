@@ -11,6 +11,10 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use common\models\Products;
+use common\models\Quotation;
+use common\models\Quotationcontent;
+use common\models\Users;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -29,7 +33,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::class,
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup', 'estimate-price', 'quatation-list', 'remove-quatation', 'remove-quatation-content'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -37,17 +41,15 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'estimate-price'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
+                'class' => VerbFilter::class,
+                'actions' => [],
             ],
         ];
     }
@@ -63,7 +65,7 @@ class SiteController extends Controller
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                'fixedVerifyCode' => null,
             ],
         ];
     }
@@ -75,7 +77,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $products = Products::find()->orderBy("name")->all();
+        return $this->render('index', ["products" => $products]);
     }
 
     /**
@@ -91,7 +94,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
         } else {
             $model->password = '';
 
@@ -101,74 +104,46 @@ class SiteController extends Controller
         }
     }
 
-    /**
-     * Logs out the current user.
-     *
-     * @return mixed
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
-    }
-
-    /**
-     * Displays contact page.
-     *
-     * @return mixed
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
-            }
-
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return mixed
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
-
-    /**
-     * Signs user up.
-     *
-     * @return mixed
-     */
     public function actionSignup()
     {
         $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+        if ($model->load(Yii::$app->request->post())) {
+            $user = new Users();
+            $user->username = $model->username;
+            $user->email = $model->email;
+            $user->setPassword($model->password);
+            $user->firstname = $model->firstname;
+            $user->lastname = $model->lastname;
+            $user->dob = $model->dob;
+            $user->sex = $model->sex;
+            $user->phone = $model->phone;
+            $user->facebook = $model->facebook;
+            $user->lineId = $model->lineId;
+            $user->generateAuthKey();
+            if ($user->save()) {
+                Yii::$app->user->login($user);
+            } else {
+                return $this->goBack();
+            }
             return $this->goHome();
         }
-
         return $this->render('signup', [
             'model' => $model,
         ]);
     }
 
-    /**
-     * Requests password reset.
-     *
-     * @return mixed
-     */
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+        return $this->goHome();
+    }
+
+    public function actionProductView($id)
+    {
+        $product = Products::findOne($id);
+        return $this->render("product-view", ["product" => $product]);
+    }
+
     public function actionRequestPasswordReset()
     {
         $model = new PasswordResetRequestForm();
@@ -187,13 +162,6 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Resets password.
-     *
-     * @param string $token
-     * @return mixed
-     * @throws BadRequestHttpException
-     */
     public function actionResetPassword($token)
     {
         try {
@@ -213,35 +181,6 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Verify email address
-     *
-     * @param string $token
-     * @throws BadRequestHttpException
-     * @return yii\web\Response
-     */
-    public function actionVerifyEmail($token)
-    {
-        try {
-            $model = new VerifyEmailForm($token);
-        } catch (InvalidArgumentException $e) {
-            throw new BadRequestHttpException($e->getMessage());
-        }
-        $user = $model->verifyEmail();
-        if ($user && Yii::$app->user->login($user)) {
-            Yii::$app->session->setFlash('success', 'Your email has been confirmed!');
-            return $this->goHome();
-        }
-
-        Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');
-        return $this->goHome();
-    }
-
-    /**
-     * Resend verification email
-     *
-     * @return mixed
-     */
     public function actionResendVerificationEmail()
     {
         $model = new ResendVerificationEmailForm();
@@ -256,5 +195,52 @@ class SiteController extends Controller
         return $this->render('resendVerificationEmail', [
             'model' => $model
         ]);
+    }
+
+    public function actionEstimatePrice()
+    {
+        $quatation = new Quotation();
+        if (isset($_GET["id"])) {
+            $quatation = Quotation::findOne($_GET["id"]);
+        }
+        if ($quatation->load(Yii::$app->request->post())) {
+            $quatation->user_id = Yii::$app->user->identity->id;
+            if ($quatation->save()) {
+                foreach ($_FILES["image"]["name"] as $key => $file) :
+                    $quatationContent = new Quotationcontent();
+                    $uploadModel = new \common\models\MyFileUpload(); // ประกาศตัวแปรอัปโหลดภาพ
+                    if (!empty($file)) {
+                        $quatationContent->file_path = $uploadModel->UploadImage("image[$key]", "images")["data"];
+                    }
+                    $quatationContent->q_id = $quatation->id;
+                    $quatationContent->save();
+                endforeach;
+                Yii::$app->session->setFlash('success', "บันทึกข้อมูลใบเสนอราคาเรียบร้อย");
+            } else {
+                Yii::$app->session->setFlash('error', "บันทึกข้อมูลใบเสนอราคาล้มเหลว");
+            }
+            return $this->redirect(["site/quatation-list"]);
+        }
+        return $this->render("estimate-price", ["quatation" => $quatation]);
+    }
+
+    public function actionRemoveQuatationContent($id)
+    {
+        Quotationcontent::deleteAll(["id" => $id]);
+        Yii::$app->session->setFlash('success', "ลบข้อมูลเรียบร้อยแล้ว");
+        return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+    }
+
+    public function actionRemoveQuatation($id)
+    {
+        Quotation::deleteAll(["id" => $id]);
+        Yii::$app->session->setFlash('success', "ลบข้อมูลเรียบร้อยแล้ว");
+        return $this->redirect(Yii::$app->request->referrer ?: Yii::$app->homeUrl);
+    }
+
+    public function actionQuatationList()
+    {
+        $quatationList = Users::findOne(Yii::$app->user->identity->id)->quotations;
+        return $this->render("quatation-list", ["quatationList" => $quatationList]);
     }
 }
